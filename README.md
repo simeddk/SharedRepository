@@ -1,6 +1,9 @@
 # SharedRepository
 자료 공유를 위한 리포지토리
 
+# 2026.06.05 문일고 실습 공유 자료
+- [노트북LM소스](https://github.com/simeddk/SharedRepository/raw/refs/heads/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0_%EB%85%B8%ED%8A%B8%EB%B6%81LM%EC%86%8C%EC%8A%A4.zip)
+
 # 2026.04.16 부산 학원 실습 강의 공유 자료
 - [영상 링크(One Drive)](https://1drv.ms/v/c/61374c51dc32591a/IQBDz3xNUNFjTISbtP0A9PxdAQN73iq6I67ygf0dwA_XWQ8?e=51ytef)
 - - 경우에 따라 MS 계정으로 로그인하라고 뜰 수도 있습니다! 사용 중이신 윈도우 계정을 입력하시면 됩니다.(큰일 안남)
