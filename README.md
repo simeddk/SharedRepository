@@ -10,7 +10,7 @@
 - [문일고 주변 맛집(더미 데이터)](https://github.com/simeddk/SharedRepository/blob/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EB%8D%94%EB%AF%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0.md)
 - [앱 색상표(보러 가기)](https://github.com/simeddk/SharedRepository/blob/main/%EB%A7%9B%EC%A7%91%EC%95%B1%20%EC%83%89%EC%83%81%ED%91%9C.md)
 
-## ~~고통~~
+## ~~코딩은 고통이야~~
 - [C++로 게임에서 버튼 만들기](https://github.com/simeddk/U06_PlugIn/blob/main/Plugins/Toy/Source/Toy/Toolbar/ButtonCommand.cpp)
 - [C++로 언리얼 엔진 레이아웃 만들기](https://github.com/simeddk/U06_PlugIn/blob/main/Plugins/Toy/Source/Toy/Viewer/MeshViewer.cpp)
 - [C++로 멀티 플레이 메뉴화면 제어](https://github.com/SGAGURO/NetworkReplicates/blob/main/Source/OSS/UI/CMainMenu.cpp)
