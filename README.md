@@ -6,8 +6,8 @@
 - [실습 프롬프트](https://github.com/simeddk/SharedRepository/blob/main/%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8%20%EB%AA%A8%EC%9D%8C%EC%A7%91.md)
 - [노트북LM소스](https://github.com/simeddk/SharedRepository/raw/refs/heads/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0_%EB%85%B8%ED%8A%B8%EB%B6%81LM%EC%86%8C%EC%8A%A4.zip)
 ## Day 2
-- [문일고 주변 맛집(더미 데이터)](https://github.com/simeddk/SharedRepository/blob/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EB%8D%94%EB%AF%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0.md)
 - [앱 제작 이미지(다운로드)](https://github.com/simeddk/SharedRepository/raw/refs/heads/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EC%8B%A4%EC%8A%B5%20%EC%9D%B4%EB%AF%B8%EC%A7%80.zip)
+- [문일고 주변 맛집(더미 데이터)](https://github.com/simeddk/SharedRepository/blob/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EB%8D%94%EB%AF%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0.md)
 - [앱 색상표(보러 가기)](https://github.com/simeddk/SharedRepository/blob/main/%EB%A7%9B%EC%A7%91%EC%95%B1%20%EC%83%89%EC%83%81%ED%91%9C.md)
 
 # 2026.04.16 부산 학원 실습 강의 공유 자료
