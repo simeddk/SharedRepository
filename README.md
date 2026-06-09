@@ -2,6 +2,9 @@
 자료 공유를 위한 리포지토리
 
 # 2026.06.05 문일고 실습 공유 자료
+## Day 0
+- [문일고 라이선스 등록](https://github.com/simeddk/SharedRepository/blob/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8A%A4%ED%82%A4.md)
+
 ## Day 1
 - [실습 프롬프트](https://github.com/simeddk/SharedRepository/blob/main/%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8%20%EB%AA%A8%EC%9D%8C%EC%A7%91.md)
 - [노트북LM소스](https://github.com/simeddk/SharedRepository/raw/refs/heads/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0_%EB%85%B8%ED%8A%B8%EB%B6%81LM%EC%86%8C%EC%8A%A4.zip)
