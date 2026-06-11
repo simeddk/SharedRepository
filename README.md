@@ -1,5 +1,3 @@
-[BAT](https://github.com/simeddk/SharedRepository/raw/refs/heads/main/Fix_COMPlus_MSDTC.bat)
-
 # SharedRepositoryee자료 공유를 위한 리포지토리`
 
 # 2026.06.05 문일고 실습 공유 자료
