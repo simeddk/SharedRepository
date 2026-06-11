@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>SmartMaker COM+ Fix — 로그 분석기</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Malgun Gothic', sans-serif; background: #f0f2f5; color: #222; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+/* ── 헤더 ── */
+header { background: #1a237e; color: #fff; padding: 12px 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+header h1 { font-size: 15px; font-weight: bold; }
+header span { font-size: 12px; color: #9fa8da; }
+
+/* ── 드롭존 ── */
+#dropzone {
+  flex-shrink: 0; margin: 12px 16px 0; padding: 14px;
+  border: 2px dashed #9fa8da; border-radius: 8px; background: #fff;
+  text-align: center; cursor: pointer; transition: all .2s; font-size: 13px; color: #555;
+}
+#dropzone.over { border-color: #3949ab; background: #e8eaf6; }
+#dropzone input { display: none; }
+#dropzone .hint { font-size: 11px; color: #999; margin-top: 4px; }
+
+/* ── 요약바 ── */
+#summary {
+  flex-shrink: 0; display: none; margin: 8px 16px 0;
+  background: #fff; border-radius: 6px; padding: 8px 16px;
+  display: none; gap: 20px; align-items: center; font-size: 12px;
+  border: 1px solid #e0e0e0;
+}
+#summary.visible { display: flex; }
+.sum-item { display: flex; align-items: center; gap: 6px; }
+.sum-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ── 분할 뷰 ── */
+#panels { flex: 1; display: flex; gap: 0; min-height: 0; margin: 8px 16px 12px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; }
+
+/* ── 로그 패널 ── */
+#logPanel { width: 42%; background: #1e1e2e; overflow-y: auto; padding: 12px; }
+#logPanel .placeholder { color: #555; font-size: 12px; padding: 20px; text-align: center; }
+.log-line { font-family: Consolas, monospace; font-size: 12px; padding: 2px 6px; border-radius: 3px; cursor: pointer; white-space: pre-wrap; word-break: break-all; line-height: 1.7; }
+.log-line:hover { background: rgba(255,255,255,.05); }
+.log-line.selected { background: rgba(255,255,255,.12) !important; }
+.log-line.ts    { color: #7986cb; }
+.log-line.step  { color: #80cbc4; font-weight: bold; margin-top: 6px; }
+.log-line.ok    { color: #a5d6a7; }
+.log-line.warn  { color: #ffe082; }
+.log-line.err   { color: #ef9a9a; }
+.log-line.info  { color: #81d4fa; }
+.log-line.plain { color: #bbb; }
+.badge { display: inline-block; font-size: 10px; padding: 0 5px; border-radius: 3px; margin-left: 6px; vertical-align: middle; font-weight: bold; }
+.badge-ok   { background: #2e7d32; color: #fff; }
+.badge-warn { background: #e65100; color: #fff; }
+.badge-err  { background: #c62828; color: #fff; }
+.badge-info { background: #1565c0; color: #fff; }
+
+/* ── 가이드 패널 ── */
+#guidePanel { flex: 1; background: #fff; overflow-y: auto; padding: 16px 20px; border-left: 1px solid #ddd; }
+.guide-section { margin-bottom: 24px; }
+.guide-section h2 { font-size: 12px; color: #777; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px; }
+.entry { border-radius: 6px; padding: 10px 14px; margin-bottom: 8px; border: 1px solid transparent; transition: box-shadow .15s; }
+.entry.ok   { background: #f1f8e9; border-color: #c5e1a5; }
+.entry.info { background: #e3f2fd; border-color: #90caf9; }
+.entry.warn { background: #fff8e1; border-color: #ffe082; }
+.entry.err  { background: #ffebee; border-color: #ef9a9a; }
+.entry.highlighted { box-shadow: 0 0 0 2px #3949ab; }
+.entry-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.entry-code { font-family: Consolas, monospace; font-size: 13px; font-weight: bold; }
+.entry-title { font-size: 13px; font-weight: bold; }
+.entry-desc { font-size: 12px; color: #444; line-height: 1.6; }
+.entry-desc code { background: #eee; padding: 0 3px; border-radius: 2px; font-family: Consolas, monospace; font-size: 11px; }
+.tag { font-size: 10px; padding: 1px 6px; border-radius: 3px; }
+.tag-ok   { background: #2e7d32; color: #fff; }
+.tag-warn { background: #e65100; color: #fff; }
+.tag-err  { background: #c62828; color: #fff; }
+.tag-info { background: #1565c0; color: #fff; }
+
+/* ── 수동 복구 테이블 ── */
+.fix-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+.fix-table th { background: #f5f5f5; padding: 6px 10px; text-align: left; border-bottom: 2px solid #ddd; }
+.fix-table td { padding: 6px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+.fix-table code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: Consolas, monospace; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SmartMaker COM+/MSDTC Fix Tool — 로그 분석기</h1>
+  <span>fix_log.txt 를 불러오면 왼쪽에 분석 결과가 표시됩니다</span>
+</header>
+
+<!-- 드롭존 -->
+<div id="dropzone" onclick="document.getElementById('fileInput').click()">
+  <div>📂 fix_log.txt 를 여기에 드래그하거나 클릭하여 불러오기</div>
+  <div class="hint">배치 파일 실행 후 같은 폴더에 생성되는 fix_log.txt</div>
+  <input type="file" id="fileInput" accept=".txt">
+</div>
+
+<!-- 요약바 -->
+<div id="summary">
+  <strong style="font-size:12px">요약:</strong>
+  <div class="sum-item"><div class="sum-dot" style="background:#2e7d32"></div><span id="sumOk">성공 0</span></div>
+  <div class="sum-item"><div class="sum-dot" style="background:#e65100"></div><span id="sumWarn">주의 0</span></div>
+  <div class="sum-item"><div class="sum-dot" style="background:#c62828"></div><span id="sumErr">오류 0</span></div>
+  <div class="sum-item"><div class="sum-dot" style="background:#1565c0"></div><span id="sumInfo">정보 0</span></div>
+  <span id="sumFile" style="margin-left:auto;color:#999;font-size:11px"></span>
+</div>
+
+<!-- 분할 패널 -->
+<div id="panels">
+  <div id="logPanel">
+    <div class="placeholder">← fix_log.txt 를 불러오면<br>여기에 분석 결과가 표시됩니다</div>
+  </div>
+  <div id="guidePanel">
+    <!-- 에러 가이드 (정적) -->
+    <div class="guide-section">
+      <h2>정상 코드</h2>
+      <div class="entry ok" id="e0">
+        <div class="entry-head">
+          <span class="entry-code">0</span>
+          <span class="entry-title">성공</span>
+          <span class="tag tag-ok">OK</span>
+        </div>
+        <div class="entry-desc">정상 완료. 조치 불필요.</div>
+      </div>
+      <div class="entry info" id="e3010">
+        <div class="entry-head">
+          <span class="entry-code">3010</span>
+          <span class="entry-title">재시작 필요</span>
+          <span class="tag tag-info">INFO</span>
+        </div>
+        <div class="entry-desc">작업은 성공했으나 <strong>PC 재시작 후 적용</strong>됩니다. 배치 완료 후 반드시 재시작하세요.</div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <h2>무시 가능한 코드</h2>
+      <div class="entry warn" id="e1062">
+        <div class="entry-head">
+          <span class="entry-code">1062</span>
+          <span class="entry-title">ERROR_SERVICE_NOT_ACTIVE</span>
+          <span class="tag tag-warn">무시가능</span>
+        </div>
+        <div class="entry-desc">
+          서비스가 이미 중지 상태여서 중지 명령이 무시됨.<br>
+          서비스가 처음부터 실행되지 않았던 것이므로 정상 진행됩니다.
+        </div>
+      </div>
+      <div class="entry warn" id="e_dism">
+        <div class="entry-head">
+          <span class="entry-code">-2146498548</span>
+          <span class="entry-title">0x800F080C — DISM 기능 미지원</span>
+          <span class="tag tag-warn">무시가능</span>
+        </div>
+        <div class="entry-desc">
+          이 Windows 에디션에서 해당 COM+ 기능(ComPlusNetworkAccess 등)을 DISM으로 제어할 수 없음.<br>
+          교육용 최소설치 또는 특정 Windows 라이선스 에디션에서 발생. 기능 자체가 이미 내장되어 있으므로 무시해도 됩니다.
+        </div>
+      </div>
+      <div class="entry warn" id="e87">
+        <div class="entry-head">
+          <span class="entry-code">87</span>
+          <span class="entry-title">ERROR_INVALID_PARAMETER (DISM)</span>
+          <span class="tag tag-warn">무시가능</span>
+        </div>
+        <div class="entry-desc">
+          해당 Windows 에디션에 지정한 기능이 없거나 이미 내장되어 별도 활성화가 불필요함.<br>
+          교육용 최소설치 Windows에서는 COM+ 기능이 빌트인된 경우 이 코드가 나옵니다.
+        </div>
+      </div>
+      <div class="entry warn" id="e4">
+        <div class="entry-head">
+          <span class="entry-code">4</span>
+          <span class="entry-title">DllRegisterServer 진입점 없음</span>
+          <span class="tag tag-warn">무시가능</span>
+        </div>
+        <div class="entry-desc">
+          해당 DLL이 <code>DllRegisterServer</code> 함수를 export하지 않아 regsvr32로 등록 불가.<br>
+          COM 자가등록 방식이 아닌 DLL입니다. 건너뜁니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <h2>주의가 필요한 코드</h2>
+      <div class="entry err" id="e1">
+        <div class="entry-head">
+          <span class="entry-code">1</span>
+          <span class="entry-title">COM+ 등록 실패 (RegSvcs)</span>
+          <span class="tag tag-err">오류</span>
+        </div>
+        <div class="entry-desc">
+          <code>System.EnterpriseServices.dll</code> COM+ 카탈로그 등록 실패.<br><br>
+          <strong>원인 1:</strong> COMSysApp 서비스 중지 상태 → STEP5 재시작 후 PC 재시작 시 자동 재등록.<br>
+          <strong>원인 2:</strong> COM+ 카탈로그 손상 → 아래 수동 복구 참고.<br>
+          <strong>원인 3:</strong> Windows Sandbox 환경 제한 → 실제 PC에서는 정상 동작.
+        </div>
+      </div>
+      <div class="entry err" id="e2">
+        <div class="entry-head">
+          <span class="entry-code">2</span>
+          <span class="entry-title">ERROR_FILE_NOT_FOUND (서비스 시작)</span>
+          <span class="tag tag-err">오류</span>
+        </div>
+        <div class="entry-desc">
+          서비스가 의존하는 DLL 또는 바이너리를 찾을 수 없음.<br><br>
+          <strong>⚠ COMSysApp start: 2 는 SmartMaker 오류의 직접 원인입니다.</strong><br>
+          COMSysApp 없이는 RegSvcs가 COM+ 카탈로그에 접근 불가 → RegSvcs 전부 실패.<br><br>
+          <strong>COMSysApp 복구 순서:</strong><br>
+          1. 관리자 CMD: <code>sfc /scannow</code> (시스템 파일 복구, 약 10분)<br>
+          2. 재시작 후 배치 재실행<br>
+          3. 여전히 실패 시: <code>dism /online /cleanup-image /restorehealth</code><br>
+          4. 로그의 [DIAG] 섹션에서 <code>sc qc COMSysApp</code> 결과로 서비스 경로 확인<br><br>
+          <strong>MSDTC start: 2:</strong> 관리자 CMD에서 <code>msdtc -install</code> 수동 실행.
+        </div>
+      </div>
+      <div class="entry err" id="e5">
+        <div class="entry-head">
+          <span class="entry-code">5</span>
+          <span class="entry-title">ERROR_ACCESS_DENIED</span>
+          <span class="tag tag-err">오류</span>
+        </div>
+        <div class="entry-desc">
+          관리자 권한 부족 또는 다른 프로세스가 해당 파일 사용 중.<br>
+          배치 파일을 <strong>우클릭 → 관리자 권한으로 실행</strong>하세요.
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <h2>RegSvcs 계속 실패 시 — 수동 복구 순서</h2>
+      <table class="fix-table">
+        <tr><th>#</th><th>명령 (관리자 CMD)</th><th>설명</th></tr>
+        <tr><td>1</td><td><code>net start COMSysApp</code></td><td>COM+ Application 먼저 기동</td></tr>
+        <tr><td>2</td><td><code>cd %windir%\Microsoft.NET\Framework64\v4.0.30319</code></td><td>64비트 .NET 4 경로 이동</td></tr>
+        <tr><td>3</td><td><code>RegSvcs.exe System.EnterpriseServices.dll</code></td><td>COM+ 카탈로그 재등록</td></tr>
+        <tr><td>4</td><td><code>msdtc -uninstall</code><br><code>msdtc -install</code></td><td>MSDTC 서비스 완전 재설치 (선택)</td></tr>
+        <tr><td>5</td><td colspan="2">PC 재시작 후 SmartMaker 실행</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── 에러 코드 정의 ──
+const ERR = {
+  '0':             { level: 'ok',   anchor: 'e0',       label: '성공' },
+  '3010':          { level: 'info', anchor: 'e3010',    label: '재시작 필요' },
+  '1062':          { level: 'warn', anchor: 'e1062',    label: 'SERVICE_NOT_ACTIVE' },
+  '87':            { level: 'warn', anchor: 'e87',      label: 'INVALID_PARAM' },
+  '4':             { level: 'warn', anchor: 'e4',       label: 'DllRegServer 없음' },
+  '1':             { level: 'err',  anchor: 'e1',       label: 'COM+ 등록 실패' },
+  '2':             { level: 'err',  anchor: 'e2',       label: 'FILE_NOT_FOUND' },
+  '5':             { level: 'err',  anchor: 'e5',       label: 'ACCESS_DENIED' },
+  '-2146498548':   { level: 'warn', anchor: 'e_dism',   label: 'DISM 기능 미지원' },
+};
+
+// ── 파일 로드 ──
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('over'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('over'));
+dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('over'); loadFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', () => loadFile(fileInput.files[0]));
+
+function loadFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => renderLog(e.target.result, file.name);
+  reader.readAsText(file, 'utf-8');
+}
+
+// ── 로그 파싱 & 렌더링 ──
+function renderLog(text, filename) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim() !== '');
+  const panel = document.getElementById('logPanel');
+  panel.innerHTML = '';
+
+  let counts = { ok: 0, warn: 0, err: 0, info: 0 };
+
+  lines.forEach((raw, idx) => {
+    const line = raw.trimEnd();
+    const div = document.createElement('div');
+    div.className = 'log-line';
+
+    // 타임스탬프 라인
+    if (/^\[.+\] (START|COMPLETE)/.test(line)) {
+      div.classList.add('ts');
+      div.textContent = line;
+      panel.appendChild(div);
+      return;
+    }
+    // STEP 헤더
+    if (/^---/.test(line.trim())) {
+      div.classList.add('step');
+      div.textContent = line;
+      panel.appendChild(div);
+      return;
+    }
+
+    // 에러 코드 추출: 끝에 ": 숫자" 또는 ": -숫자" 패턴
+    const m = line.match(/:\s*(-?\d+)\s*$/);
+    if (m) {
+      const code = m[1];
+      const info = ERR[code];
+      const level = info ? info.level : (parseInt(code) === 0 ? 'ok' : 'err');
+      div.classList.add(level);
+      if (level !== 'plain') counts[level] = (counts[level] || 0) + 1;
+
+      // 텍스트 + 배지
+      const span = document.createElement('span');
+      span.textContent = line;
+      div.appendChild(span);
+
+      if (info) {
+        const badge = document.createElement('span');
+        badge.className = `badge badge-${level}`;
+        badge.textContent = info.label;
+        div.appendChild(badge);
+        div.dataset.anchor = info.anchor;
+        div.addEventListener('click', () => highlightEntry(info.anchor, div));
+      }
+    } else {
+      div.classList.add('plain');
+      div.textContent = line;
+    }
+    panel.appendChild(div);
+  });
+
+  // 요약바 업데이트
+  const sum = document.getElementById('summary');
+  sum.classList.add('visible');
+  document.getElementById('sumOk').textContent   = `성공 ${counts.ok || 0}`;
+  document.getElementById('sumWarn').textContent = `주의 ${counts.warn || 0}`;
+  document.getElementById('sumErr').textContent  = `오류 ${counts.err || 0}`;
+  document.getElementById('sumInfo').textContent = `정보 ${counts.info || 0}`;
+  document.getElementById('sumFile').textContent = filename;
+}
+
+// ── 가이드 하이라이트 ──
+let lastEntry = null;
+let lastLine = null;
+function highlightEntry(anchorId, lineEl) {
+  if (lastEntry) lastEntry.classList.remove('highlighted');
+  if (lastLine)  lastLine.classList.remove('selected');
+  const entry = document.getElementById(anchorId);
+  if (entry) {
+    entry.classList.add('highlighted');
+    entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    lastEntry = entry;
+  }
+  lineEl.classList.add('selected');
+  lastLine = lineEl;
+}
+</script>
+</body>
+</html>
