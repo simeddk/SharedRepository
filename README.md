@@ -1,5 +1,4 @@
-# SharedRepository
-`자료 공유를 위한 리포지토리`
+# SharedRepositoryee자료 공유를 위한 리포지토리`
 
 # 2026.06.05 문일고 실습 공유 자료
 ## Day 0
