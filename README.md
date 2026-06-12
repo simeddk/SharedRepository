@@ -5,6 +5,9 @@
 - 010-7587-6244
 - kskim@smartmaker.com
 
+### 수업 자료
+- Now Printing
+
 # 2026.06.05 문일고 실습 공유 자료
 ## Day 0
 - [문일고 라이선스 등록](https://github.com/simeddk/SharedRepository/blob/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8A%A4%ED%82%A4.md)
