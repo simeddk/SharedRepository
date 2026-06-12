@@ -19,7 +19,7 @@
 - [수행평가 보고서 예시 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EC%88%98%ED%96%89%ED%8F%89%EA%B0%80%20%EB%8D%94%EB%AF%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0.md)
 - [수행평가 관리앱 예시 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EC%88%98%ED%96%89%ED%8F%89%EA%B0%80%EC%95%B1%20%EB%A7%8C%EB%93%A4%EA%B8%B0.md)
 
-## ~~코딩은 고통이야~~
+## ~~코딩은 얼마나 어려울까?~~
 - [C++로 게임에서 버튼 만들기](https://github.com/simeddk/U06_PlugIn/blob/main/Plugins/Toy/Source/Toy/Toolbar/ButtonCommand.cpp)
 - [C++로 언리얼 엔진 레이아웃 만들기](https://github.com/simeddk/U06_PlugIn/blob/main/Plugins/Toy/Source/Toy/Viewer/MeshViewer.cpp)
 - [C++로 멀티 플레이 메뉴화면 제어](https://github.com/SGAGURO/NetworkReplicates/blob/main/Source/OSS/UI/CMainMenu.cpp)
