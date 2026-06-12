@@ -12,6 +12,9 @@
 - [주변 맛집 더미 데이터 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EB%8D%94%EB%AF%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0.md)
 - [오늘은 왠지.. 업무규칙 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EC%98%A4%EB%8A%98%EC%9D%80%EC%99%A0%EC%A7%80.md)
 - [앱 색상표 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EB%A7%9B%EC%A7%91%EC%95%B1%20%EC%83%89%EC%83%81%ED%91%9C.md)
+## Day 3
+- [서버 설정 방법]()
+- [수행평가 더미 데이터](https://github.com/simeddk/SharedRepository/blob/main/%EC%88%98%ED%96%89%ED%8F%89%EA%B0%80%20%EB%8D%94%EB%AF%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0.md)
 
 ## ~~코딩은 고통이야~~
 - [C++로 게임에서 버튼 만들기](https://github.com/simeddk/U06_PlugIn/blob/main/Plugins/Toy/Source/Toy/Toolbar/ButtonCommand.cpp)
