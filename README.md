@@ -9,6 +9,11 @@
 - Now Printing
 
 # 2026.06.05 문일고 실습 공유 자료
+## 최종 결과물
+- [다운로드](https://github.com/simeddk/SharedRepository/raw/refs/heads/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0.zip)
+- 집에서 하실 때는 아래 라이선스 등록 링크를 확인해주세요!
+- 스마트메이커 다운로드는 여기서 할 수 있습니다. [스마트메이커 다운로드](https://smartmaker.com/b2c/C01LfreeDown.html?_gl=1*1fs6q8u*_gcl_au*MTYzOTM1MTMwNC4xNzc1MjkwMzI3*_ga*OTQxMTkxMjMxLjE3NzUyOTAzMjc.*_ga_JKYY3D3S7Z*czE3ODEzMDgyMDkkbzQ3JGcxJHQxNzgxMzA4MjA5JGo2MCRsMCRoMA..)
+
 ## Day 0
 - [문일고 라이선스 등록](https://github.com/simeddk/SharedRepository/blob/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0%20%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8A%A4%ED%82%A4.md)
 
