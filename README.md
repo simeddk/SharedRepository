@@ -17,6 +17,7 @@
 - [앱 색상표 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EB%A7%9B%EC%A7%91%EC%95%B1%20%EC%83%89%EC%83%81%ED%91%9C.md)
 - (`구분선`)
 - [수행평가 보고서 예시 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EC%88%98%ED%96%89%ED%8F%89%EA%B0%80%20%EB%8D%94%EB%AF%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0.md)
+- [수행평가 관리앱 예시 → 바로가기](https://github.com/simeddk/SharedRepository/blob/main/%EC%88%98%ED%96%89%ED%8F%89%EA%B0%80%EC%95%B1%20%EB%A7%8C%EB%93%A4%EA%B8%B0.md)
 
 ## ~~코딩은 고통이야~~
 - [C++로 게임에서 버튼 만들기](https://github.com/simeddk/U06_PlugIn/blob/main/Plugins/Toy/Source/Toy/Toolbar/ButtonCommand.cpp)
