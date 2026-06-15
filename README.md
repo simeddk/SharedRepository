@@ -8,7 +8,7 @@
 # 2026.06.05 문일고 실습 공유 자료
 ## 최종 결과물
 - [맛집 추천 앱 수업자료 다운로드](https://github.com/simeddk/SharedRepository/raw/refs/heads/main/%EB%AC%B8%EC%9D%BC%EA%B3%A0.zip)
-- 집에서 하실 때는 아래 라이선스 등록 링크를 확인해주세요!
+- 집에서 하실 때는 아래 [라이선스 등록 방법](https://github.com/simeddk/SharedRepository/blob/main/README.md#day-0)을 확인해주세요!
 - 스마트메이커 다운로드는 여기서 할 수 있습니다. [스마트메이커 다운로드](https://smartmaker.com/b2c/C01LfreeDown.html?_gl=1*1fs6q8u*_gcl_au*MTYzOTM1MTMwNC4xNzc1MjkwMzI3*_ga*OTQxMTkxMjMxLjE3NzUyOTAzMjc.*_ga_JKYY3D3S7Z*czE3ODEzMDgyMDkkbzQ3JGcxJHQxNzgxMzA4MjA5JGo2MCRsMCRoMA..)
 
 ## 참고 자료
